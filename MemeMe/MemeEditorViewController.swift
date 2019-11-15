@@ -147,15 +147,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return true;
     }
     
-    struct Meme {
-        var topText: String?
-        var botText: String?
-        var originalImage: UIImage?
-        var memedImage: UIImage
-    }
-    
     func save() {
-        _ = Meme(topText: topTextField.text!, botText: bottomTextField.text!, originalImage: imageView.image!, memedImage: generateMemedImage())
+        let meme = Meme(topText: topTextField.text!, botText: bottomTextField.text!, originalImage: imageView.image!, memedImage: generateMemedImage())
+        (UIApplication.shared.delegate as! AppDelegate).memes.append(meme)
     }
     
     func generateMemedImage() -> UIImage {
