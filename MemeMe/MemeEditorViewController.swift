@@ -16,6 +16,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var topTextField: UITextField!
     @IBOutlet weak var bottomTextField: UITextField!
     @IBOutlet weak var toolBar: UIToolbar!
+    
     var imagePickerCamera = UIImagePickerController()
     var imagePickerAlbum = UIImagePickerController()
     
@@ -149,7 +150,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func save() {
         let meme = Meme(topText: topTextField.text!, botText: bottomTextField.text!, originalImage: imageView.image!, memedImage: generateMemedImage())
-        (UIApplication.shared.delegate as! AppDelegate).memes.append(meme)
+
+        let object = UIApplication.shared.delegate
+        let appDelegate = object as! AppDelegate
+        appDelegate.memes.append(meme)
     }
     
     func generateMemedImage() -> UIImage {
@@ -173,7 +177,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let vc = UIActivityViewController(activityItems: [memedImage], applicationActivities: [])
         vc.completionWithItemsHandler = { activity, success, items, error in
             if success {
-                // Logic to save meme...
+                self.save()
+            } else {
                 self.save()
             }
         }
