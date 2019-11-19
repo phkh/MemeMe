@@ -13,8 +13,6 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var memedImage: UIImageView!
     
-    //TODO figure out how to scale the image properly
-    
     func setMeme(meme: Meme) {
         memedImage.clipsToBounds = true
         memedImage.contentMode = .center

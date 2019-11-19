@@ -18,15 +18,15 @@ class SentMemesTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        table.reloadData()
+        table?.reloadData()
         self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        table.delegate = self
-        table.dataSource = self
+        table?.delegate = self
+        table?.dataSource = self
     }
     
 }

@@ -10,7 +10,12 @@ import UIKit
 
 private let reuseIdentifier = "MemeCell"
 
-class SentMemesCollectionViewController: UICollectionViewController {
+private let sectionInsets = UIEdgeInsets(top: 50.0,
+                                        left: 20.0,
+                                        bottom: 50.0,
+                                        right: 20.0)
+
+class SentMemesCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var memeCollectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -25,42 +30,56 @@ class SentMemesCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Register cell classes
-        self.collectionView?.register(CollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
         memeCollectionView.delegate = self
         memeCollectionView.dataSource = self
-        
-        let space:CGFloat = 3.0
-        let dimension = (view.frame.size.width - (2 * space)) / 3.0
-
-        flowLayout.minimumInteritemSpacing = space
-        flowLayout.minimumLineSpacing = space
-        flowLayout.itemSize = CGSize(width: dimension, height: dimension)
-        
-        
+                
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         memeCollectionView!.reloadData()
+        
+    }
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+      return memes.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        print(memes.count)
         return memes.count
-
+        
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellCollection = collectionView.dequeueReusableCell(withReuseIdentifier: "MemeCell", for: indexPath) as! CollectionViewCell
         let meme = memes[indexPath.row]
-        
-        cellCollection.setMemeCollectionView(meme: meme)
+        //cellCollection.setMemeCollectionView(meme: meme)
+        cellCollection.memedImage?.image = meme.memedImage
     
         return cellCollection
     }
-
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let paddingSpace = sectionInsets.left * (2 + 1)
+        let availableWidth = view.frame.width - paddingSpace
+        let widthPerItem = availableWidth / 2
+        
+        return CGSize(width: widthPerItem, height: widthPerItem)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+      return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+      return sectionInsets.left
+    }
+    
+    
 }
+

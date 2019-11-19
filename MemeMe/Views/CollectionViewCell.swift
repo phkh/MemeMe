@@ -8,11 +8,12 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {    
-     @IBOutlet weak var memedImage: UIImageView!
+class CollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var memedImage: UIImageView!
+        
     func setMemeCollectionView(meme: Meme) {
-        memedImage.image = meme.memedImage
+        self.memedImage?.image = meme.memedImage
     }
     
 }

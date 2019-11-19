@@ -19,6 +19,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var imagePickerCamera = UIImagePickerController()
     var imagePickerAlbum = UIImagePickerController()
+    var back = SentMemesTableViewController()
     
     var activeTextField: UITextField!
     
@@ -180,8 +181,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         vc.completionWithItemsHandler = { activity, success, items, error in
             if success {
                 self.save()
+                _ = self.navigationController?.popViewController(animated: true)
             } else {
-                self.save()
+                self.dismiss(animated: true)
             }
         }
         present(vc, animated: true)
