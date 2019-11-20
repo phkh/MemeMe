@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -17,12 +17,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var bottomTextField: UITextField!
     @IBOutlet weak var toolBar: UIToolbar!
     
+    var topTextString: String!
+    var botTextString: String!
+    var image: UIImage!
+    
+    var editOrCreate: Bool! = false
+    
     var imagePickerCamera = UIImagePickerController()
     var imagePickerAlbum = UIImagePickerController()
     var back = SentMemesTableViewController()
     
     var activeTextField: UITextField!
-    
+        
     let memeTextAttributes: [NSAttributedString.Key: Any] = [
         NSAttributedString.Key.strokeColor: UIColor.black,
         NSAttributedString.Key.foregroundColor: UIColor.white,
@@ -44,11 +50,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        if editOrCreate == true {
+            configureTextField(topTextField, text: topTextString)
+            configureTextField(bottomTextField, text: botTextString)
+            imageView.image = image
+            shareButton.isEnabled = true
 
-        
-        shareButton.isEnabled = false
-    }
+        } else {
+            setupUI()
+            shareButton.isEnabled = false
+        }
+
+}
+    
     
     func setupUI() {
         imagePickerCamera.delegate = self

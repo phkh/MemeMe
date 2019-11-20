@@ -10,10 +10,10 @@ import UIKit
 
 private let reuseIdentifier = "MemeCell"
 
-private let sectionInsets = UIEdgeInsets(top: 50.0,
-                                        left: 20.0,
-                                        bottom: 50.0,
-                                        right: 20.0)
+private let sectionInsets = UIEdgeInsets(top: 60.0,
+                                        left: 10.0,
+                                        bottom: 60.0,
+                                        right: 10.0)
 
 class SentMemesCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -43,7 +43,7 @@ class SentMemesCollectionViewController: UICollectionViewController, UICollectio
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-      return memes.count
+      return 1
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -54,8 +54,7 @@ class SentMemesCollectionViewController: UICollectionViewController, UICollectio
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellCollection = collectionView.dequeueReusableCell(withReuseIdentifier: "MemeCell", for: indexPath) as! CollectionViewCell
         let meme = memes[indexPath.row]
-        //cellCollection.setMemeCollectionView(meme: meme)
-        cellCollection.memedImage?.image = meme.memedImage
+        cellCollection.setMemeCollectionView(meme: meme)
     
         return cellCollection
     }
@@ -65,7 +64,7 @@ class SentMemesCollectionViewController: UICollectionViewController, UICollectio
         let availableWidth = view.frame.width - paddingSpace
         let widthPerItem = availableWidth / 2
         
-        return CGSize(width: widthPerItem, height: widthPerItem)
+        return CGSize(width: widthPerItem, height: widthPerItem * 1.5)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -77,7 +76,18 @@ class SentMemesCollectionViewController: UICollectionViewController, UICollectio
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-      return sectionInsets.left
+        return sectionInsets.left
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let displayVC: MemeEditorViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MemeEditor") as! MemeEditorViewController
+        
+        displayVC.topTextString = memes[indexPath.row].topText
+        displayVC.botTextString = memes[indexPath.row].botText
+        displayVC.image = memes[indexPath.row].originalImage
+        displayVC.editOrCreate = true
+        
+        show(displayVC, sender: self)
     }
     
     
